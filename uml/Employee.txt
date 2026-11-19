@@ -1,0 +1,37 @@
+classDiagram
+    class Employee {
+        -int id
+        -String fullName
+        -int age
+        -String position
+        
+        +calculateSalary()* int
+    }
+
+    class FullTimeEmployee {
+        -int monthlySalary
+        -int bonus
+
+        +calculateSalary() int
+    }
+    
+    class PartTimeEmployee {
+        -int hourlyPaymentRate
+        -int hoursWorked
+        
+        +calculateSalary() int
+    }
+    
+    class Department {
+        -int id
+        -String name
+    }
+
+    Employee <|-- FullTimeEmployee : extends
+    Employee <|-- PartTimeEmployee : extends
+    Employee "0..*" -- "1" Department : linked to
+    Department <|-- IT : extends
+    Department <|-- HumanResources : extends
+    Department <|-- Finance : extends
+    Department <|-- Marketing : extends
+    Department <|-- Sales : extends
