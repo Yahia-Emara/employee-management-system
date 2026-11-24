@@ -11,7 +11,7 @@ public class Helper {
             Object obj = in.readObject();
             return obj;
         }
-        catch(FileNotFoundException e){
+        catch(FileNotFoundException | EOFException e){
             return null;
         }
         catch (IOException | ClassNotFoundException e) {

@@ -1,0 +1,46 @@
+package employee;
+
+import java.util.*;
+
+public class EmployeeList {
+    List<Employee> employees;
+    
+    EmployeeList(){
+        employees = new ArrayList<>(List.of());
+    }
+
+    EmployeeList(List<Employee> employees){
+        this.employees = employees;
+    }
+
+    public void add(Employee emp){
+        employees.add(emp);
+    }
+
+    public Employee search(int id){
+        for(Employee emp : employees){
+            if(emp.getId() == id){
+                return emp;
+            }
+        }
+        return null;
+    }
+    
+    public EmployeeList search(String name){
+        EmployeeList matches = new EmployeeList();
+        for(Employee emp : employees){
+            if(emp.getFullName().contains(name)){
+                matches.add(emp);
+            }
+        }
+        return matches;
+    }
+
+    public void remove(Employee emp){
+        employees.remove(emp);
+    }
+
+    public void remove(int id){
+        remove(search(id));
+    }
+}
