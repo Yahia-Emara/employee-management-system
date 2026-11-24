@@ -11,7 +11,15 @@ public class FullTimeEmployee extends Employee{
     }
 
     @Override
-    int calculateSalary() {
+    public int calculateSalary() {
         return monthlySalary + bonus;
+    }
+
+    @Override 
+    public String toString() {
+        return super.toString()+
+               ("monthly salary: %d EGP\n".formatted(monthlySalary)+
+                "bonus: %d EGP\n".formatted(bonus)+
+                "total salary: %d EGP\n".formatted(calculateSalary())).indent(4);
     }
 }

@@ -1,15 +1,16 @@
 package employee;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class EmployeeList {
-    List<Employee> employees;
+public class EmployeeList implements Serializable{
+    private List<Employee> employees;
     
-    EmployeeList(){
+    public EmployeeList(){
         employees = new ArrayList<>(List.of());
     }
 
-    EmployeeList(List<Employee> employees){
+    public EmployeeList(List<Employee> employees){
         this.employees = employees;
     }
 
@@ -42,5 +43,13 @@ public class EmployeeList {
 
     public void remove(int id){
         remove(search(id));
+    }
+
+    public String toString(){
+        String ret = "List of employees: \n";
+        for (Employee emp : employees){
+            ret += emp.toString().indent(2);
+        }
+        return ret;
     }
 }

@@ -53,4 +53,13 @@ public abstract class Employee {
     }
 
     abstract int calculateSalary();
+    
+    public String toString(){
+        return "Employee:\n"+
+               ("ID: %d\n".formatted(id)+
+                "name: %s\n".formatted(fullName)+
+                "age: %d\n".formatted(age)+
+                "position: %s\n".formatted(position)+
+                department.toString()).indent(4);
+    }
 }

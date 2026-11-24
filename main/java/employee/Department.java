@@ -38,4 +38,11 @@ public class Department {
         this.employees = employees;
     }
 
+    public String toString(){
+        return "Department:\n"+
+               ("ID: %d\n".formatted(id)+
+                "name: %s\n".formatted(name)).indent(2);
+    
+    }
+
 }

@@ -11,7 +11,15 @@ public class PartTimeEmployee extends Employee{
     }
 
     @Override
-    int calculateSalary() {
+    public int calculateSalary() {
         return hourlyPaymentRate + hoursWorked;
+    }
+
+    @Override 
+    public String toString() {
+        return super.toString()+
+               ("payment rate: %d EGP/hr\n".formatted(hourlyPaymentRate)+
+                "time worked: %d hrs\n".formatted(hoursWorked)+
+                "total salary: %d EGP\n".formatted(calculateSalary())).indent(4);
     }
 }
