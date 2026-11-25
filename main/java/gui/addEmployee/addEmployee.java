@@ -4,6 +4,7 @@ import database.Database;
 import employee.Department;
 import employee.FullTimeEmployee;
 import employee.PartTimeEmployee;
+import gui.common;
 import gui.home.Home;
 import javafx.event.ActionEvent;
 import java.io.IOException;
@@ -20,6 +21,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+
+import static gui.common.showAlert;
+import static gui.common.showSuccess;
 
 public class addEmployee {
 
@@ -214,20 +218,5 @@ public class addEmployee {
         partTimeBox.setManaged(false);
     }
 
-    private void showAlert(String message) {
 
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Invalid Input");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-
-    }
-    private void showSuccess(String message) {
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Success");
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    alert.showAndWait();
-    }
 }

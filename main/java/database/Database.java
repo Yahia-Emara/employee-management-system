@@ -1,5 +1,6 @@
 package database;
 
+import employee.Employee;
 import employee.EmployeeList;
 import user.User;
 import user.UserList;
@@ -27,10 +28,14 @@ public class Database {
         if (employees == null){
             employees = new EmployeeList();
         }
+        else{
+            Employee.setIdCount(employees.getEmployees().size());
+        }
         users = (UserList) Helper.readFile("./database/users.ser");
         if (users == null){
             users = new UserList();
         }
+
     }
     
     public void save(){

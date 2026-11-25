@@ -55,6 +55,10 @@ public abstract class Employee implements Serializable {
         this.department = department;
     }
 
+    public static void setIdCount(int idCount) {
+        Employee.idCount = idCount;
+    }
+
     abstract int calculateSalary();
     
     public String toString(){
