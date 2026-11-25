@@ -12,7 +12,7 @@ public class PartTimeEmployee extends Employee{
 
     @Override
     public int calculateSalary() {
-        return hourlyPaymentRate + hoursWorked;
+        return hourlyPaymentRate * hoursWorked;
     }
 
     @Override 

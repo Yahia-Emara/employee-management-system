@@ -4,7 +4,6 @@ import employee.EmployeeList;
 
 public class Database {
     private EmployeeList employees;
-
     private Database(){
         load();
     }
