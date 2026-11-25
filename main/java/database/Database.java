@@ -1,9 +1,15 @@
 package database;
 
 import employee.EmployeeList;
+import user.User;
+import user.UserList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
     private EmployeeList employees;
+    private UserList users;
     private Database(){
         load();
     }
@@ -21,10 +27,15 @@ public class Database {
         if (employees == null){
             employees = new EmployeeList();
         }
+        users = (UserList) Helper.readFile("./database/users.ser");
+        if (users == null){
+            users = new UserList();
+        }
     }
     
     public void save(){
         Helper.writeFile("./database/employees.ser", employees);
+        Helper.writeFile("./database/users.ser", users);
     }
 
     public EmployeeList getEmployees(){
