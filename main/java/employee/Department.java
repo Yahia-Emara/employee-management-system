@@ -1,6 +1,9 @@
 package employee;
 
-public class Department {
+import java.io.Serializable;
+
+public class Department implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static int idCount = 0;
     private final int id;
     private String name;

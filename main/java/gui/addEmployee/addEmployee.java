@@ -1,12 +1,233 @@
-package gui.addEmployee;
 
+package gui.addEmployee;
+import database.Database;
+import employee.Department;
+import employee.FullTimeEmployee;
+import employee.PartTimeEmployee;
+import gui.home.Home;
+import javafx.event.ActionEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class addEmployee {
 
+    
+    
+    @FXML
+    private TextField fullNameField;
+
+    @FXML
+    private TextField ageField;
+
+    @FXML
+    private TextField positionField;
+
+    @FXML
+    private TextField basicSalaryField;
+
+    @FXML
+    private TextField bonusField;
+
+    @FXML
+    private TextField hourlyRate;
+
+    @FXML
+    private TextField hoursWorked;
+
+    @FXML
+    private ComboBox<String> departmentBox;
+
+    @FXML
+    private ComboBox<String> typeBox;
+
+    @FXML
+    private GridPane fullTimeBox;
+
+    @FXML
+    private GridPane partTimeBox;
+
+    private ArrayList<String> departments = new ArrayList<>();
+    
+    @FXML
+    public static void start(ActionEvent event) throws Exception{
+        FXMLLoader loader = new FXMLLoader(addEmployee.class.getResource("addEmployee.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.getScene().setRoot(root);
+    }
+    
+    @FXML
+    public void initialize() {
+
+        departments.addAll(Arrays.asList(
+            "IT",
+            "HR",
+            "Finance",
+            "Marketing",
+            "Sales"
+        ));
+
+        departmentBox.getItems().addAll(departments);
+
+        typeBox.getItems().addAll(
+            "Full-Time",
+            "Part-Time"
+        );
+
+        fullTimeBox.setVisible(true);
+        fullTimeBox.setManaged(true);
+
+        partTimeBox.setVisible(false);
+        partTimeBox.setManaged(false);
+        
+        typeBox.setOnAction(event -> {
+
+        boolean isPartTime = "Part-Time".equals(typeBox.getValue());
+
+        fullTimeBox.setVisible(!isPartTime);
+        fullTimeBox.setManaged(!isPartTime);
+
+        partTimeBox.setVisible(isPartTime);
+        partTimeBox.setManaged(isPartTime);
+    });
+    }
+
+    @FXML
+    private void handleAddBtn(ActionEvent event) {
+
+        try {
+            
+            String name = fullNameField.getText().trim();
+            String position = positionField.getText().trim();
+            String departmentName = departmentBox.getValue();
+            String employeeType = typeBox.getValue();
+
+            if (name.isEmpty() || ageField.getText().trim().isEmpty()
+                    || position.isEmpty() || departmentName == null
+                    || employeeType == null) {
+
+                showAlert("Please fill in all required fields.");
+                return;
+            }
+
+            int age = Integer.parseInt(ageField.getText().trim());
+            Department department = new Department(departmentName);
+            if (age <= 0) {
+                showAlert("Age must be positive.");
+                return;
+            }
+
+            if ("Full-Time".equals(employeeType)) {
+
+                int salary = Integer.parseInt(
+                    basicSalaryField.getText().trim()
+                );
+
+                int bonus = Integer.parseInt(
+                    bonusField.getText().trim()
+                );
+
+                if (salary < 0 || bonus < 0) {
+                    showAlert("Salary and bonus cannot be negative.");
+                    return;
+                }
+
+                FullTimeEmployee emp = new FullTimeEmployee(name,age,position,department,salary,bonus);
+                Database db = Database.get();
+                db.getEmployees().add(emp);
+                db.save();
+                showSuccess("Employee added successfully!");
+                handleClearBtn(null);
+                try {
+                        Home.start(event);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            } else if ("Part-Time".equals(employeeType)) {
+
+                int rate = Integer.parseInt(
+                    hourlyRate.getText().trim()
+                );
+
+                int hours = Integer.parseInt(
+                    hoursWorked.getText().trim()
+                );
+
+                if (rate < 0 || hours < 0) {
+                    showAlert("Rate and hours cannot be negative.");
+                    return;
+                }
+
+                PartTimeEmployee partemp = new PartTimeEmployee(name,age,position,department,rate,hours);
+                Database db = Database.get();
+                db.getEmployees().add(partemp);
+                db.save();
+                showSuccess("Employee added successfully!");
+                handleClearBtn(null);
+                try {
+                      Home.start(event);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
+
+        } catch (NumberFormatException e) {
+
+            showAlert("Please enter valid numeric values.");
+
+        }
+        
+    }
+
+    @FXML
+    private void handleClearBtn(ActionEvent event) {
+
+        fullNameField.clear();
+        ageField.clear();
+        positionField.clear();
+
+        basicSalaryField.clear();
+        bonusField.clear();
+
+        hourlyRate.clear();
+        hoursWorked.clear();
+
+        departmentBox.getSelectionModel().clearSelection();
+        typeBox.getSelectionModel().clearSelection();
+
+        fullTimeBox.setVisible(true);
+        fullTimeBox.setManaged(true);
+
+        partTimeBox.setVisible(false);
+        partTimeBox.setManaged(false);
+    }
+
+    private void showAlert(String message) {
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Input");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+    }
+    private void showSuccess(String message) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Success");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+    }
 }

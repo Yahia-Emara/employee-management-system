@@ -10,6 +10,10 @@ public class EmployeeList implements Serializable{
         employees = new ArrayList<>(List.of());
     }
 
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
     public EmployeeList(List<Employee> employees){
         this.employees = employees;
     }

@@ -1,5 +1,7 @@
+
 package gui.home;
 
+import gui.addEmployee.addEmployee;
 import gui.login.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,8 +20,12 @@ public class Home {
         stage.getScene().setRoot(root);
     }
     @FXML
-    public void addEmployee(){
-
+    public void addEmployee(ActionEvent event){
+        try {
+            addEmployee.start(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     public void manageEmployee(){
