@@ -41,4 +41,7 @@ public class Database {
     public EmployeeList getEmployees(){
         return employees;
     }
+    public UserList getUsers(){
+        return users;
+    }
 }

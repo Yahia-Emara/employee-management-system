@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public class EmployeeList implements Serializable{
+    private static final long serialVersionUID = 1L;
     private List<Employee> employees;
-    
     public EmployeeList(){
         employees = new ArrayList<>(List.of());
     }

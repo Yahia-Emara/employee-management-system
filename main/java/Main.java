@@ -1,9 +1,12 @@
 import java.io.IOException;
+
+import database.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import user.User;
 
 public class Main extends Application{
     @Override 
@@ -11,7 +14,7 @@ public class Main extends Application{
         Parent root = FXMLLoader.load(getClass().getResource("gui/login/Login.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Bank Management System");
+        stage.setTitle("Employee Management System");
         stage.show();
     }
     public static void main(String args[]){

@@ -20,6 +20,11 @@ public class Helper {
         }
     }
     public static void writeFile(String filename, Object obj){
+        File target = new File(filename);
+        File parent = target.getParentFile();
+        if (parent != null && !parent.exists()) {
+            parent.mkdirs();
+        }
         try (
             FileOutputStream file = new FileOutputStream(filename);
             ObjectOutputStream out = new ObjectOutputStream(file)
