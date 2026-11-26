@@ -1,6 +1,8 @@
 
 package gui.addEmployee;
 import database.Database;
+import database.DbItem;
+import database.DbList;
 import employee.Department;
 import employee.FullTimeEmployee;
 import employee.PartTimeEmployee;
@@ -10,6 +12,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,8 +65,7 @@ public class addEmployee {
     @FXML
     private GridPane partTimeBox;
 
-    private ArrayList<String> departments = new ArrayList<>();
-    
+
     @FXML
     public static void start(ActionEvent event) throws Exception{
         FXMLLoader loader = new FXMLLoader(addEmployee.class.getResource("addEmployee.fxml"));
@@ -75,16 +77,11 @@ public class addEmployee {
     @FXML
     public void initialize() {
 
-        departments.addAll(Arrays.asList(
-            "IT",
-            "HR",
-            "Finance",
-            "Marketing",
-            "Sales"
-        ));
-
+       List<String> departments = new ArrayList<>();
+       for(DbItem department : Database.get().getDepartments().getItems()){
+           departments.add(department.getName());
+       }
         departmentBox.getItems().addAll(departments);
-
         typeBox.getItems().addAll(
             "Full-Time",
             "Part-Time"

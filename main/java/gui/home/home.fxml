@@ -15,12 +15,17 @@
       </Label>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
          <children>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#addEmployee" prefHeight="100.0" prefWidth="180.0" style="-fx-border-color: green; -fx-border-width: 4; -fx-background-color: white;" text="add employee" wrapText="true">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#addEmployee" prefHeight="100.0" prefWidth="180.0" style="-fx-border-color: green; -fx-border-width: 4; -fx-background-color: white;" text="Add Employee" wrapText="true">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#manageEmployee" prefHeight="100.0" prefWidth="180.0" style="-fx-border-color: green; -fx-border-width: 4; -fx-background-color: white;" text="manage employees" wrapText="true">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#manageEmployee" prefHeight="100.0" prefWidth="180.0" style="-fx-border-color: green; -fx-border-width: 4; -fx-background-color: white;" text="Manage Employees" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#manageDepartments" prefHeight="100.0" prefWidth="180.0" style="-fx-border-color: green; -fx-border-width: 4; -fx-background-color: white;" text="Manage Departments" wrapText="true">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

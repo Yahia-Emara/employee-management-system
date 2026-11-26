@@ -2,6 +2,7 @@ package database;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DbList implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -22,22 +23,19 @@ public class DbList implements Serializable{
         items.add(item);
     }
 
-    public DbItem search(int id){
-        for(DbItem item : items){
-            if(item.getId() == id){
-                return item;
-            }
-        }
-        return null;
-    }
-    
-    public DbList search(String name){
+    public DbList searchById(String idPrefix) {
         DbList matches = new DbList();
-        for(DbItem item : items){
-            if(item.getName().contains(name)){
-                matches.add(item);
-            }
-        }
+        matches.setItems(items.stream()
+                .filter(item -> String.valueOf(item.getId()).startsWith(idPrefix))
+                .collect(Collectors.toList()));
+        return matches;
+    }
+
+    public DbList searchByName(String prefix){
+        DbList matches = new DbList();
+        matches.setItems(items.stream()
+                .filter(item -> item.getName() != null && item.getName().toLowerCase().startsWith(prefix))
+                .collect(Collectors.toList()));
         return matches;
     }
 
@@ -45,9 +43,6 @@ public class DbList implements Serializable{
         items.remove(item);
     }
 
-    public void remove(int id){
-        remove(search(id));
-    }
 
     public boolean contains(DbItem item){
         return items.contains(item);

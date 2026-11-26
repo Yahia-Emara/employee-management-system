@@ -1,9 +1,11 @@
 package employee;
 
 import java.io.Serializable;
+
+import database.DbItem;
 import database.DbList;
 
-public class Department implements Serializable {
+public class Department implements Serializable, DbItem {
     private static final long serialVersionUID = 1L;
     private static int idCount = 0;
     private final int id;
@@ -26,6 +28,10 @@ public class Department implements Serializable {
         Department.idCount = idCount;
     }
 
+    public static int getIdCount() {
+        return idCount;
+    }
+
     public int getId() {
         return id;
     }
@@ -45,7 +51,9 @@ public class Department implements Serializable {
     public void setEmployees(DbList employees) {
         this.employees = employees;
     }
-
+    public int getNumberOfEmployees(){
+        return employees.getItems().size();
+    }
     public String toString(){
         return "Department:\n"+
                ("ID: %d\n".formatted(id)+

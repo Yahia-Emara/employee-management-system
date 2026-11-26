@@ -1,9 +1,13 @@
 import java.io.IOException;
+
+import database.Database;
+import employee.Department;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import user.User;
 
 public class Main extends Application{
     @Override 
@@ -15,6 +19,7 @@ public class Main extends Application{
         stage.show();
     }
     public static void main(String args[]){
+        Database.get().load();
         launch(args);
     }
 }

@@ -3,6 +3,7 @@ package gui.home;
 
 import gui.addEmployee.addEmployee;
 import gui.login.Login;
+import gui.manageDepartments.manageDepartmentsController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -35,6 +36,14 @@ public class Home {
     public void logout(ActionEvent event){
         try {
             Login.start(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void manageDepartments(ActionEvent event){
+        try {
+            manageDepartmentsController.start(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
