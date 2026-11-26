@@ -1,26 +1,31 @@
 package employee;
 
 import java.io.Serializable;
+import database.DbList;
 
 public class Department implements Serializable {
     private static final long serialVersionUID = 1L;
     private static int idCount = 0;
     private final int id;
     private String name;
-    private EmployeeList employees;
+    private DbList employees;
 
     public Department(String name) {
         this.id = idCount++;
         this.name = name;
-        this.employees = new EmployeeList();
+        this.employees = new DbList();
     }
 
-    public Department(String name, EmployeeList employees) {
+    public Department(String name, DbList employees) {
         this.id = idCount++;
         this.name = name;
         this.employees = employees;
     }
     
+    public static void setIdCount(int idCount){
+        Department.idCount = idCount;
+    }
+
     public int getId() {
         return id;
     }
@@ -33,11 +38,11 @@ public class Department implements Serializable {
         this.name = name;
     }
 
-    public EmployeeList getEmployees() {
+    public DbList getEmployees() {
         return employees;
     }
 
-    public void setEmployees(EmployeeList employees) {
+    public void setEmployees(DbList employees) {
         this.employees = employees;
     }
 

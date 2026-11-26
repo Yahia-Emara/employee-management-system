@@ -1,8 +1,9 @@
 package employee;
 
 import java.io.Serializable;
+import database.DbItem;
 
-public abstract class Employee implements Serializable {
+public abstract class Employee implements Serializable, DbItem {
     private static final long serialVersionUID = 1L;
     private static int idCount = 0;
     private final int id;
@@ -29,6 +30,10 @@ public abstract class Employee implements Serializable {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getName() {
+        return getFullName();
     }
 
     public int getAge() {

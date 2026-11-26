@@ -8,16 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import user.User;
 
 import javafx.event.ActionEvent;
-import user.UserList;
-
-import java.lang.management.PlatformLoggingMXBean;
-import java.util.List;
 
 public class Login {
     @FXML
@@ -36,7 +31,7 @@ public class Login {
         String username = usernameField.getText();
         String password = passwordField.getText();
         User user = new User(username, password);
-        if(Database.get().getUsers().authentication(user)) {
+        if(Database.get().getUsers().contains(user)) {
             try {
                 Home.start(e);
             }

@@ -1,16 +1,13 @@
 package database;
 
+import employee.Department;
 import employee.Employee;
-import employee.EmployeeList;
-import user.User;
-import user.UserList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Database {
-    private EmployeeList employees;
-    private UserList users;
+    private DbList employees;
+    private DbList users;
+    private DbList departments;
+    
     private Database(){
         load();
     }
@@ -24,16 +21,25 @@ public class Database {
     }
 
     public void load(){
-        employees = (EmployeeList) Helper.readFile("./database/employees.ser");
+        employees = (DbList) Helper.readFile("./database/employees.ser");
         if (employees == null){
-            employees = new EmployeeList();
+            employees = new DbList();
         }
         else{
-            Employee.setIdCount(employees.getEmployees().size());
+            Employee.setIdCount(employees.getItems().size());
         }
-        users = (UserList) Helper.readFile("./database/users.ser");
+
+        users = (DbList) Helper.readFile("./database/users.ser");
         if (users == null){
-            users = new UserList();
+            users = new DbList();
+        }
+
+        departments = (DbList) Helper.readFile("./database/departments.ser");
+        if (departments == null){
+            departments = new DbList();
+        }
+        else{
+            Department.setIdCount(departments.getItems().size());
         }
 
     }
@@ -41,12 +47,16 @@ public class Database {
     public void save(){
         Helper.writeFile("./database/employees.ser", employees);
         Helper.writeFile("./database/users.ser", users);
+        Helper.writeFile("./database/departments.ser", users);
     }
 
-    public EmployeeList getEmployees(){
+    public DbList getEmployees(){
         return employees;
     }
-    public UserList getUsers(){
+    public DbList getUsers(){
         return users;
+    }
+    public DbList getDepartments(){
+        return departments;
     }
 }
