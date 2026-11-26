@@ -33,4 +33,7 @@ public class common {
             return false;
         }
     }
+    public static boolean isValidName(String str) {
+        return str != null && str.matches("^\\p{L}+([ '\\-]\\p{L}+)*$");
+    }
 }

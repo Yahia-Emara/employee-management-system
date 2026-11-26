@@ -2,6 +2,7 @@ package database;
 
 import employee.Department;
 import employee.Employee;
+import user.User;
 
 public class Database {
     private DbList employees;
@@ -33,10 +34,24 @@ public class Database {
         if (users == null){
             users = new DbList();
         }
-
+        if (users.getItems().isEmpty()){
+            users.add(new User("admin", "admin"));
+            Helper.writeFile("./database/users.ser", users);
+        }
         departments = (DbList) Helper.readFile("./database/departments.ser");
         if (departments == null){
             departments = new DbList();
+            String[] defaultDepartments = {
+                "IT",
+                "Human Resources",
+                "Finance",
+                "Marketing",
+                "Sales"
+            };
+            for (String departmentName : defaultDepartments) {
+                departments.add(new Department(departmentName));
+            }
+            Helper.writeFile("./database/departments.ser", departments);
         }
         else{
             Department.setIdCount(departments.getItems().size());

@@ -7,6 +7,7 @@ import employee.Department;
 import employee.FullTimeEmployee;
 import employee.PartTimeEmployee;
 import gui.common;
+import static gui.common.isValidName;
 import gui.home.Home;
 import javafx.event.ActionEvent;
 import java.io.IOException;
@@ -122,14 +123,33 @@ public class addEmployee {
                 showAlert("Please fill in all required fields.");
                 return;
             }
+            if (!isValidName(name)) {
+                showAlert("Full name must contain letters only.");
+                return;
+            }
 
-            int age = Integer.parseInt(ageField.getText().trim());
-            Department department = new Department(departmentName);
+            if (!isValidName(position)) {
+                showAlert("Position must contain letters only.");
+                return;
+            }
+
+            String ageText = ageField.getText().trim();
+            if (!common.isNumeric(ageText)) {
+                showAlert("Age must be a whole number.");
+                return;
+            }
+
+            int age = Integer.parseInt(ageText);
             if (age <= 0) {
                 showAlert("Age must be positive.");
                 return;
             }
-
+            DbItem found = Database.get().getDepartments().getByName(departmentName);
+            if (found == null) {
+                showAlert("Department not found.");
+                return;
+            }
+            Department department = (Department) found;
             if ("Full-Time".equals(employeeType)) {
 
                 int salary = Integer.parseInt(
@@ -146,6 +166,7 @@ public class addEmployee {
                 }
 
                 FullTimeEmployee emp = new FullTimeEmployee(name,age,position,department,salary,bonus);
+                department.getEmployees().add(emp);
                 Database db = Database.get();
                 db.getEmployees().add(emp);
                 db.save();
@@ -172,6 +193,7 @@ public class addEmployee {
                 }
 
                 PartTimeEmployee partemp = new PartTimeEmployee(name,age,position,department,rate,hours);
+                department.getEmployees().add(partemp);
                 Database db = Database.get();
                 db.getEmployees().add(partemp);
                 db.save();
@@ -214,6 +236,12 @@ public class addEmployee {
         partTimeBox.setVisible(false);
         partTimeBox.setManaged(false);
     }
-
-
+    @FXML
+    private void handleBackBtn(ActionEvent event) {
+        try {
+            Home.start(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

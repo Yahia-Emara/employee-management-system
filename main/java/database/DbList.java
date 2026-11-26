@@ -34,11 +34,21 @@ public class DbList implements Serializable{
     public DbList searchByName(String prefix){
         DbList matches = new DbList();
         matches.setItems(items.stream()
-                .filter(item -> item.getName() != null && item.getName().toLowerCase().startsWith(prefix))
+                .filter(item -> item.getName() != null && item.getName().toLowerCase().startsWith(prefix.toLowerCase()))
                 .collect(Collectors.toList()));
         return matches;
     }
-
+    
+    public DbItem getByName(String name) {
+        if (name == null) {
+            return null;
+        }
+        return items.stream()
+                .filter(item -> item.getName() != null && item.getName().equalsIgnoreCase(name.trim()))
+                .findFirst()
+                .orElse(null);
+    }
+    
     public void remove(DbItem item){
         items.remove(item);
     }
