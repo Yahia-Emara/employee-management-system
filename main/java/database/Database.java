@@ -47,7 +47,7 @@ public class Database {
     public void save(){
         Helper.writeFile("./database/employees.ser", employees);
         Helper.writeFile("./database/users.ser", users);
-        Helper.writeFile("./database/departments.ser", users);
+        Helper.writeFile("./database/departments.ser", departments);
     }
 
     public DbList getEmployees(){
