@@ -27,7 +27,7 @@ public class Database {
             employees = new DbList();
         }
         else{
-            Employee.setIdCount(employees.getItems().size());
+            Employee.setIdCount(nextId(employees));
         }
 
         users = (DbList) Helper.readFile("./database/users.ser");
@@ -54,7 +54,7 @@ public class Database {
             Helper.writeFile("./database/departments.ser", departments);
         }
         else{
-            Department.setIdCount(departments.getItems().size());
+            Department.setIdCount(nextId(departments));
         }
 
     }
@@ -64,7 +64,17 @@ public class Database {
         Helper.writeFile("./database/users.ser", users);
         Helper.writeFile("./database/departments.ser", departments);
     }
-
+    
+    private int nextId(DbList list) {
+        int max = -1;
+        for (DbItem item : list.getItems()) {
+            if (item.getId() > max) {
+                max = item.getId();
+            }
+        }
+        return max + 1;
+    }
+    
     public DbList getEmployees(){
         return employees;
     }

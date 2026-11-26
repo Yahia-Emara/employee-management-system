@@ -9,7 +9,12 @@ public class FullTimeEmployee extends Employee{
         this.monthlySalary = monthlySalary;
         this.bonus = bonus;
     }
-
+    
+    public int getMonthlySalary() { return monthlySalary; }
+    public void setMonthlySalary(int monthlySalary) { this.monthlySalary = monthlySalary; }
+    public int getBonus() { return bonus; }
+    public void setBonus(int bonus) { this.bonus = bonus; }
+    
     @Override
     public int calculateSalary() {
         return monthlySalary + bonus;

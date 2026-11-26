@@ -7,7 +7,10 @@ import employee.Department;
 import employee.FullTimeEmployee;
 import employee.PartTimeEmployee;
 import gui.common;
-import static gui.common.isValidName;
+import static gui.common.showFieldsFor;
+import static gui.common.validateEmployeeFields;
+import static gui.common.validateFullTime;
+import static gui.common.validatePartTime;
 import gui.home.Home;
 import javafx.event.ActionEvent;
 import java.io.IOException;
@@ -30,43 +33,18 @@ import static gui.common.showAlert;
 import static gui.common.showSuccess;
 
 public class addEmployee {
-
+    @FXML private TextField fullNameField;
+    @FXML private TextField ageField;
+    @FXML private TextField positionField;
+    @FXML private TextField basicSalaryField;
+    @FXML private TextField bonusField;
+    @FXML private TextField hourlyRate;
+    @FXML private TextField hoursWorked;
+    @FXML private ComboBox<String> departmentBox;
+    @FXML private ComboBox<String> typeBox;
+    @FXML private GridPane fullTimeBox;
+    @FXML private GridPane partTimeBox;
     
-    
-    @FXML
-    private TextField fullNameField;
-
-    @FXML
-    private TextField ageField;
-
-    @FXML
-    private TextField positionField;
-
-    @FXML
-    private TextField basicSalaryField;
-
-    @FXML
-    private TextField bonusField;
-
-    @FXML
-    private TextField hourlyRate;
-
-    @FXML
-    private TextField hoursWorked;
-
-    @FXML
-    private ComboBox<String> departmentBox;
-
-    @FXML
-    private ComboBox<String> typeBox;
-
-    @FXML
-    private GridPane fullTimeBox;
-
-    @FXML
-    private GridPane partTimeBox;
-
-
     @FXML
     public static void start(ActionEvent event) throws Exception{
         FXMLLoader loader = new FXMLLoader(addEmployee.class.getResource("addEmployee.fxml"));
@@ -74,6 +52,7 @@ public class addEmployee {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(root);
     }
+    
     
     @FXML
     public void initialize() {
@@ -88,24 +67,11 @@ public class addEmployee {
             "Part-Time"
         );
 
-        fullTimeBox.setVisible(true);
-        fullTimeBox.setManaged(true);
-
-        partTimeBox.setVisible(false);
-        partTimeBox.setManaged(false);
-        
-        typeBox.setOnAction(event -> {
-
-        boolean isPartTime = "Part-Time".equals(typeBox.getValue());
-
-        fullTimeBox.setVisible(!isPartTime);
-        fullTimeBox.setManaged(!isPartTime);
-
-        partTimeBox.setVisible(isPartTime);
-        partTimeBox.setManaged(isPartTime);
-    });
+        showFieldsFor(fullTimeBox, partTimeBox, null);
+        typeBox.setOnAction(event -> showFieldsFor(fullTimeBox, partTimeBox, typeBox.getValue()));
     }
 
+    
     @FXML
     private void handleAddBtn(ActionEvent event) {
 
@@ -116,34 +82,14 @@ public class addEmployee {
             String departmentName = departmentBox.getValue();
             String employeeType = typeBox.getValue();
 
-            if (name.isEmpty() || ageField.getText().trim().isEmpty()
-                    || position.isEmpty() || departmentName == null
-                    || employeeType == null) {
-
-                showAlert("Please fill in all required fields.");
-                return;
-            }
-            if (!isValidName(name)) {
-                showAlert("Full name must contain letters only.");
-                return;
-            }
-
-            if (!isValidName(position)) {
-                showAlert("Position must contain letters only.");
-                return;
-            }
-
             String ageText = ageField.getText().trim();
-            if (!common.isNumeric(ageText)) {
-                showAlert("Age must be a whole number.");
-                return;
-            }
 
-            int age = Integer.parseInt(ageText);
-            if (age <= 0) {
-                showAlert("Age must be positive.");
+            String error = validateEmployeeFields(name, position, ageText, departmentName, employeeType);
+            if (error != null) {
+                showAlert(error);
                 return;
             }
+            int age = Integer.parseInt(ageText);
             DbItem found = Database.get().getDepartments().getByName(departmentName);
             if (found == null) {
                 showAlert("Department not found.");
@@ -152,18 +98,13 @@ public class addEmployee {
             Department department = (Department) found;
             if ("Full-Time".equals(employeeType)) {
 
-                int salary = Integer.parseInt(
-                    basicSalaryField.getText().trim()
-                );
-
-                int bonus = Integer.parseInt(
-                    bonusField.getText().trim()
-                );
-
-                if (salary < 0 || bonus < 0) {
-                    showAlert("Salary and bonus cannot be negative.");
+                error = validateFullTime(basicSalaryField.getText().trim(), bonusField.getText().trim());
+                if (error != null) {
+                    showAlert(error);
                     return;
                 }
+                int salary = Integer.parseInt(basicSalaryField.getText().trim());
+                int bonus = Integer.parseInt(bonusField.getText().trim());
 
                 FullTimeEmployee emp = new FullTimeEmployee(name,age,position,department,salary,bonus);
                 department.getEmployees().add(emp);
@@ -179,18 +120,13 @@ public class addEmployee {
                     }
             } else if ("Part-Time".equals(employeeType)) {
 
-                int rate = Integer.parseInt(
-                    hourlyRate.getText().trim()
-                );
-
-                int hours = Integer.parseInt(
-                    hoursWorked.getText().trim()
-                );
-
-                if (rate < 0 || hours < 0) {
-                    showAlert("Rate and hours cannot be negative.");
+                error = validatePartTime(hourlyRate.getText().trim(), hoursWorked.getText().trim());
+                if (error != null) {
+                    showAlert(error);
                     return;
                 }
+                int rate = Integer.parseInt(hourlyRate.getText().trim());
+                int hours = Integer.parseInt(hoursWorked.getText().trim());
 
                 PartTimeEmployee partemp = new PartTimeEmployee(name,age,position,department,rate,hours);
                 department.getEmployees().add(partemp);
@@ -214,6 +150,7 @@ public class addEmployee {
         
     }
 
+    
     @FXML
     private void handleClearBtn(ActionEvent event) {
 
@@ -230,12 +167,10 @@ public class addEmployee {
         departmentBox.getSelectionModel().clearSelection();
         typeBox.getSelectionModel().clearSelection();
 
-        fullTimeBox.setVisible(true);
-        fullTimeBox.setManaged(true);
-
-        partTimeBox.setVisible(false);
-        partTimeBox.setManaged(false);
+        showFieldsFor(fullTimeBox, partTimeBox, null);
     }
+    
+    
     @FXML
     private void handleBackBtn(ActionEvent event) {
         try {

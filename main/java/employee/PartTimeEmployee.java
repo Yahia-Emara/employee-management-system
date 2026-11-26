@@ -9,7 +9,12 @@ public class PartTimeEmployee extends Employee{
         this.hourlyPaymentRate = hourlyPaymentRate;
         this.hoursWorked = hoursWorked;
     }
-
+    
+    public int getHourlyPaymentRate() { return hourlyPaymentRate; }
+    public void setHourlyPaymentRate(int hourlyPaymentRate) { this.hourlyPaymentRate = hourlyPaymentRate; }
+    public int getHoursWorked() { return hoursWorked; }
+    public void setHoursWorked(int hoursWorked) { this.hoursWorked = hoursWorked; }
+    
     @Override
     public int calculateSalary() {
         return hourlyPaymentRate * hoursWorked;
