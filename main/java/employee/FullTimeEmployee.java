@@ -10,6 +10,12 @@ public class FullTimeEmployee extends Employee{
         this.bonus = bonus;
     }
     
+    public FullTimeEmployee(int id, String fullName, int age, String position,Department department, int monthlySalary, int bonus) {
+        super(id, fullName, age, position, department);
+        this.monthlySalary = monthlySalary;
+        this.bonus = bonus;
+    }
+    
     public int getMonthlySalary() { return monthlySalary; }
     public void setMonthlySalary(int monthlySalary) { this.monthlySalary = monthlySalary; }
     public int getBonus() { return bonus; }

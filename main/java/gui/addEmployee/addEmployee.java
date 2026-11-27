@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 
 import static gui.common.showAlert;
 import static gui.common.showSuccess;
+import gui.manageEmployee.ManageEmployee;
 
 public class addEmployee {
     @FXML private TextField fullNameField;
@@ -114,7 +115,7 @@ public class addEmployee {
                 showSuccess("Employee added successfully!");
                 handleClearBtn(null);
                 try {
-                        Home.start(event);
+                        ManageEmployee.start(event);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -136,7 +137,7 @@ public class addEmployee {
                 showSuccess("Employee added successfully!");
                 handleClearBtn(null);
                 try {
-                      Home.start(event);
+                      ManageEmployee.start(event);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

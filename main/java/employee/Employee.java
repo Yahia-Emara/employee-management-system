@@ -19,7 +19,15 @@ public abstract class Employee implements Serializable, DbItem {
         this.position = position;
         this.department = department;
     }
-
+    
+    public Employee(int id, String fullName, int age, String position, Department department) {
+        this.id = id;
+        this.fullName = fullName;
+        this.age = age;
+        this.position = position;
+        this.department = department;
+    }
+    
     public int getId() {
         return id;
     }

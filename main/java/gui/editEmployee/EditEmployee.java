@@ -26,6 +26,7 @@ import static gui.common.validateFullTime;
 import static gui.common.validatePartTime;
 import static gui.common.showAlert;
 import static gui.common.showSuccess;
+import gui.manageEmployee.ManageEmployee;
 
 public class EditEmployee {
 
@@ -62,11 +63,6 @@ public class EditEmployee {
     }
 
     public void setEmployee(DbItem item) {
-        // can remove if manage employee button always check if employee is selected
-        if (!(item instanceof Employee)) {
-            showAlert("Select an employee to edit.");
-            return;
-        }
         
         employee = (Employee) item;
 
@@ -93,10 +89,7 @@ public class EditEmployee {
 
     @FXML
     private void handleEditBtn(ActionEvent event) {
-        if (employee == null) {
-            showAlert("No employee selected.");
-            return;
-        }
+        
         try {
             String name = fullNameField.getText().trim();
             String position = positionField.getText().trim();
@@ -157,9 +150,9 @@ public class EditEmployee {
                 }
             } else {
                 if ("Full-Time".equals(type)) {
-                    edited = new FullTimeEmployee(name, age, position, newDept, salary, bonus);
+                    edited = new FullTimeEmployee(oldId, name, age, position, newDept, salary, bonus);
                 } else {
-                    edited = new PartTimeEmployee(name, age, position, newDept, rate, hours);
+                    edited = new PartTimeEmployee(oldId, name, age, position, newDept, rate, hours);
                 }
 
                 Database.get().getEmployees().getItems().removeIf(i -> i.getId() == oldId);
@@ -189,10 +182,8 @@ public class EditEmployee {
 
     @FXML
     private void handleBackBtn(ActionEvent event) {
-        // TODO (Manage Employees): replace Home.start with the Manage Employees
-        // screen's start method once it exists.
         try {
-            Home.start(event);
+            ManageEmployee.start(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
