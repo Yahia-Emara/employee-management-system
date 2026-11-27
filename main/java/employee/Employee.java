@@ -66,6 +66,16 @@ public abstract class Employee implements Serializable, DbItem {
 
     abstract int calculateSalary();
     
+    public String getDepartmentName() {
+    return department != null ? department.getName() : "";
+}
+
+    public abstract String getType();
+
+    public int getSalary() {
+        return calculateSalary();
+    }
+    
     public String toString(){
         return "Employee:\n"+
                ("ID: %d\n".formatted(id)+

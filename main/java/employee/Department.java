@@ -54,6 +54,9 @@ public class Department implements Serializable, DbItem {
     public int getNumberOfEmployees(){
         return employees.getItems().size();
     }
+    public void removeEmployee(DbItem employee){
+        employees.remove(employee);
+    }
     public String toString(){
         return "Department:\n"+
                ("ID: %d\n".formatted(id)+

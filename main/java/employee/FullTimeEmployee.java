@@ -19,7 +19,10 @@ public class FullTimeEmployee extends Employee{
     public int calculateSalary() {
         return monthlySalary + bonus;
     }
-
+    @Override
+    public String getType() {
+        return "Full-Time";
+    }
     @Override 
     public String toString() {
         return super.toString()+

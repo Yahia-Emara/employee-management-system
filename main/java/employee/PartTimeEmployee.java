@@ -19,7 +19,10 @@ public class PartTimeEmployee extends Employee{
     public int calculateSalary() {
         return hourlyPaymentRate * hoursWorked;
     }
-
+    @Override
+    public String getType() {
+        return "Part-Time";
+    }
     @Override 
     public String toString() {
         return super.toString()+

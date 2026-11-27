@@ -4,6 +4,7 @@ package gui.home;
 import gui.addEmployee.addEmployee;
 import gui.login.Login;
 import gui.manageDepartments.manageDepartmentsController;
+import gui.manageEmployee.ManageEmployee;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,16 +22,13 @@ public class Home {
         stage.getScene().setRoot(root);
     }
     @FXML
-    public void addEmployee(ActionEvent event){
-        try {
-            addEmployee.start(event);
+    
+    public void manageEmployee(ActionEvent event){
+    try {
+            ManageEmployee.start(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    @FXML
-    public void manageEmployee(){
-    
     }
     @FXML
     public void logout(ActionEvent event){

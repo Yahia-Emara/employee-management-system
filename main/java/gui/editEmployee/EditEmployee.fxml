@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="628.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/27.0.1.1">
+<AnchorPane id="AnchorPane" prefHeight="628.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/27.0.1.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.editEmployee.EditEmployee">
    <children>
       <GridPane hgap="12.0" layoutX="14.0" layoutY="46.0" prefHeight="561.0" prefWidth="434.0" vgap="12.0">
          <columnConstraints>
