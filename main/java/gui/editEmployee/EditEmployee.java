@@ -6,8 +6,6 @@ import employee.Department;
 import employee.Employee;
 import employee.FullTimeEmployee;
 import employee.PartTimeEmployee;
-import gui.common;
-import gui.home.Home;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,8 +15,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 import static gui.common.showFieldsFor;
 import static gui.common.validateEmployeeFields;

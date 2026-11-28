@@ -2,31 +2,24 @@
 package gui.addEmployee;
 import database.Database;
 import database.DbItem;
-import database.DbList;
 import employee.Department;
 import employee.FullTimeEmployee;
 import employee.PartTimeEmployee;
-import gui.common;
 import static gui.common.showFieldsFor;
 import static gui.common.validateEmployeeFields;
 import static gui.common.validateFullTime;
 import static gui.common.validatePartTime;
-import gui.home.Home;
 import javafx.event.ActionEvent;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import static gui.common.showAlert;

@@ -1,7 +1,6 @@
 
 package gui.home;
 
-import gui.addEmployee.addEmployee;
 import gui.login.Login;
 import gui.manageDepartments.manageDepartmentsController;
 import gui.manageEmployee.ManageEmployee;
