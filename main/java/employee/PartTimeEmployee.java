@@ -1,6 +1,7 @@
 package employee;
 
 public class PartTimeEmployee extends Employee{
+    private static final long serialVersionUID = 1L;
     private int hourlyPaymentRate;
     private int hoursWorked;
     

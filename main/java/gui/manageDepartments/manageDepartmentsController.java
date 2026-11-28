@@ -5,6 +5,7 @@ import database.DbItem;
 import database.DbList;
 import employee.Department;
 import gui.common;
+import static gui.common.showAlert;
 import gui.home.Home;
 import gui.login.Login;
 import javafx.collections.FXCollections;
@@ -51,7 +52,7 @@ public class manageDepartmentsController {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         numberOfEmployeesColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfEmployees"));
-
+        tableView.setPlaceholder(new Label("No matching departments found."));
         tableView.setItems(FXCollections.observableArrayList(
                 Database.get().getDepartments().getItems()
         ));
@@ -92,12 +93,15 @@ public class manageDepartmentsController {
             if(selectedDepartment instanceof Department){
                 Department department = (Department) selectedDepartment;
                 if(department.getNumberOfEmployees()>0){
-                    common.showAlert("Cannot delete department Department has employees");
+                    common.showAlert("Cannot delete department,Department has employees");
                     return;
                 }
             }
             Database.get().getDepartments().remove(selectedDepartment);
-            Database.get().save();
+            if (!Database.get().save()) {
+                showAlert("Could not save data to file.");
+                return;
+            }
             tableView.getItems().remove(selectedDepartment);
         }
         else{
@@ -117,9 +121,16 @@ public class manageDepartmentsController {
         result.ifPresent(name -> {
             String trimmedName = name.trim();
             if (!trimmedName.isEmpty()) {
+                if (Database.get().getDepartments().getByName(trimmedName) != null) {
+                    common.showAlert("A department with this name already exists.");
+                    return;
+                }
                 Department department = new Department(trimmedName);
                 Database.get().getDepartments().add(department);
-                Database.get().save();
+                if (!Database.get().save()) {
+                    showAlert("Could not save data to file.");
+                    return;
+                }
                 tableView.getItems().add(department);
             }
             else{
@@ -140,11 +151,19 @@ public class manageDepartmentsController {
                 result.ifPresent(name -> {
                     String trimmedName = name.trim();
                     if (!trimmedName.isEmpty()) {
+                        DbItem existing = Database.get().getDepartments().getByName(trimmedName);
+                        if (existing != null && existing.getId() != selectedDepartment.getId()) {
+                            common.showAlert("A department with this name already exists.");
+                            return;
+                        }
                         Department department = (Department) selectedDepartment;
                         department.setName(trimmedName);
                         Database.get().getDepartments().remove(selectedDepartment);
                         Database.get().getDepartments().add(department);
-                        Database.get().save();
+                        if (!Database.get().save()) {
+                            showAlert("Could not save data to file.");
+                            return;
+                        }
                         tableView.refresh();
                     }
                     else{

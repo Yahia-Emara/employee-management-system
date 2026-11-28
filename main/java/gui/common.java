@@ -54,8 +54,8 @@ public class common {
         if (!isValidName(name)) {
             return "Full name must contain letters only.";
         }
-        if (!isValidName(position)) {
-            return "Position must contain letters only.";
+        if (!position.matches("^[\\p{L}0-9 .'\\-]+$")) {
+            return "Position contains invalid characters.";
         }
         if (!isNumeric(ageText)) {
             return "Age must be a whole number.";

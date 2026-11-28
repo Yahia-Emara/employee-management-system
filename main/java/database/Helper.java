@@ -16,10 +16,15 @@ public class Helper {
         }
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            try {
+                java.nio.file.Files.copy(java.nio.file.Paths.get(filename),
+                        java.nio.file.Paths.get(filename + ".corrupt"),
+                        java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ignored) { }
             return null;
         }
     }
-    public static void writeFile(String filename, Object obj){
+    public static boolean writeFile(String filename, Object obj){
         File target = new File(filename);
         File parent = target.getParentFile();
         if (parent != null && !parent.exists()) {
@@ -30,9 +35,11 @@ public class Helper {
             ObjectOutputStream out = new ObjectOutputStream(file)
         ) {
             out.writeObject(obj);
+            return true;
         }
         catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }

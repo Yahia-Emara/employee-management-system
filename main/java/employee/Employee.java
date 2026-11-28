@@ -1,5 +1,6 @@
 package employee;
 
+import database.Database;
 import java.io.Serializable;
 import database.DbItem;
 
@@ -75,8 +76,12 @@ public abstract class Employee implements Serializable, DbItem {
     abstract int calculateSalary();
     
     public String getDepartmentName() {
-    return department != null ? department.getName() : "";
-}
+        if (department == null) return "";
+        DbItem current = Database.get().getDepartments().getItems().stream()
+                .filter(d -> d.getId() == department.getId())
+                .findFirst().orElse(null);
+        return current != null ? current.getName() : department.getName();
+    }
 
     public abstract String getType();
 

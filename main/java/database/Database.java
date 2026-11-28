@@ -59,10 +59,11 @@ public class Database {
 
     }
     
-    public void save(){
-        Helper.writeFile("./database/employees.ser", employees);
-        Helper.writeFile("./database/users.ser", users);
-        Helper.writeFile("./database/departments.ser", departments);
+    public boolean save(){
+        boolean ok = Helper.writeFile("./database/employees.ser", employees);
+        ok &= Helper.writeFile("./database/users.ser", users);
+        ok &= Helper.writeFile("./database/departments.ser", departments);
+        return ok;
     }
     
     private int nextId(DbList list) {

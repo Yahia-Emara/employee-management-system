@@ -34,7 +34,7 @@ public class DbList implements Serializable{
     public DbList searchByName(String prefix){
         DbList matches = new DbList();
         matches.setItems(items.stream()
-                .filter(item -> item.getName() != null && item.getName().toLowerCase().startsWith(prefix.toLowerCase()))
+                .filter(item -> item.getName() != null && item.getName().toLowerCase().contains(prefix.toLowerCase()))
                 .collect(Collectors.toList()));
         return matches;
     }

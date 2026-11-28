@@ -108,10 +108,12 @@ public class addEmployee {
                 int bonus = Integer.parseInt(bonusField.getText().trim());
 
                 FullTimeEmployee emp = new FullTimeEmployee(name,age,position,department,salary,bonus);
-                department.getEmployees().add(emp);
                 Database db = Database.get();
                 db.getEmployees().add(emp);
-                db.save();
+                if (!Database.get().save()) {
+                    showAlert("Could not save data to file.");
+                    return;
+                }
                 showSuccess("Employee added successfully!");
                 handleClearBtn(null);
                 try {
@@ -130,10 +132,12 @@ public class addEmployee {
                 int hours = Integer.parseInt(hoursWorked.getText().trim());
 
                 PartTimeEmployee partemp = new PartTimeEmployee(name,age,position,department,rate,hours);
-                department.getEmployees().add(partemp);
                 Database db = Database.get();
                 db.getEmployees().add(partemp);
-                db.save();
+                if (!Database.get().save()) {
+                    showAlert("Could not save data to file.");
+                    return;
+                }
                 showSuccess("Employee added successfully!");
                 handleClearBtn(null);
                 try {
@@ -175,7 +179,7 @@ public class addEmployee {
     @FXML
     private void handleBackBtn(ActionEvent event) {
         try {
-            Home.start(event);
+            ManageEmployee.start(event);
         } catch (Exception e) {
             e.printStackTrace();
         }

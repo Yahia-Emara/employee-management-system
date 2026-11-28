@@ -74,7 +74,7 @@ public class ManageEmployee {
         departmentColumn.setCellValueFactory(new PropertyValueFactory<>("departmentName"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         salaryColumn.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        
+        tableView.setPlaceholder(new Label("No matching employees found."));
         tableView.setItems(FXCollections.observableArrayList(
                 Database.get().getEmployees().getItems()
         ));
@@ -83,23 +83,19 @@ public class ManageEmployee {
     
    
     public void searchEmployee(){
-        
-        Database db = Database.get();
-        DbList emp;
         String input = searchEmployeesField.getText() == null ? "" : searchEmployeesField.getText().trim();
-         if (input.isEmpty()) {
-            emp = Database.get().getEmployees();
+        String lower = input.toLowerCase();
+        List<DbItem> result = new ArrayList<>();
+        for (DbItem item : Database.get().getEmployees().getItems()) {
+            Employee e = (Employee) item;
+            if (input.isEmpty()
+                    || String.valueOf(e.getId()).startsWith(input)
+                    || e.getFullName().toLowerCase().contains(lower)
+                    || e.getDepartmentName().toLowerCase().contains(lower)) {
+                result.add(item);
+            }
         }
-         else if(isNumeric(input)){
-        emp=db.getEmployees().searchById(input);
-        }else{
-        emp=db.getEmployees().searchByName(input);
-        }
-        if (emp == null || emp.getItems() == null) {
-            tableView.getItems().clear();
-        } else {
-            tableView.getItems().setAll(emp.getItems());
-        }
+        tableView.getItems().setAll(result);
     }
     
     public void back(ActionEvent event){
@@ -119,23 +115,22 @@ public class ManageEmployee {
     }
     
     public void delete(ActionEvent event){
-     DbItem selectedEmployee = tableView.getSelectionModel().getSelectedItem();
-      if(selectedEmployee ==null){showAlert("NO SELECTED EMPLOYEE");
-     }else{
-     Database.get().getEmployees().remove(selectedEmployee);
-      for(DbItem department : Database.get().getDepartments().getItems()){
-          Department dept = (Department) department;
-          Employee emp = (Employee) selectedEmployee;
-          if(dept.getId() == emp.getDepartment().getId()){
-          dept.removeEmployee(selectedEmployee);
-          
-          break;
-          }
-          
-       }
-      Database.get().save();
-      tableView.getItems().remove(selectedEmployee);
-     }
+        DbItem selectedEmployee = tableView.getSelectionModel().getSelectedItem();
+        if (selectedEmployee == null) {
+            showAlert("NO SELECTED EMPLOYEE");
+            return;
+        }
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                "Delete " + selectedEmployee.getName() + "?", ButtonType.YES, ButtonType.NO);
+        confirm.setHeaderText(null);
+        if (confirm.showAndWait().orElse(ButtonType.NO) != ButtonType.YES) {
+            return;
+        }
+        Database.get().getEmployees().remove(selectedEmployee);
+        tableView.getItems().remove(selectedEmployee);
+        if (!Database.get().save()) {
+            showAlert("Could not save data to file.");
+        }
     }
     
     public void edit(ActionEvent event){

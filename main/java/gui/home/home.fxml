@@ -13,6 +13,11 @@
             <Font name="System Bold" size="34.0" />
          </font>
       </Label>
+      <Label text="Welcome, Admin!">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
          <children>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#manageEmployee" prefHeight="100.0" prefWidth="180.0" style="-fx-border-color: green; -fx-border-width: 4; -fx-background-color: white;" text="Manage Employees" wrapText="true">

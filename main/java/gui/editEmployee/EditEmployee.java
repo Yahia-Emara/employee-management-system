@@ -129,7 +129,6 @@ public class EditEmployee {
         }
 
             int oldId = employee.getId();
-            Department oldDept = findDepartmentById(employee.getDepartment().getId());
             Employee edited;
 
             boolean sameType = ("Full-Time".equals(type) && employee instanceof FullTimeEmployee)
@@ -159,19 +158,10 @@ public class EditEmployee {
                 Database.get().getEmployees().add(edited);
             }
 
-            if (oldDept != null) {
-                oldDept.getEmployees().getItems().removeIf(i -> i.getId() == oldId);
+            if (!Database.get().save()) {
+                showAlert("Could not save data to file.");
+                return;
             }
-            newDept.getEmployees().getItems().removeIf(i -> i.getId() == oldId);
-            newDept.getEmployees().add(edited);
-
-            if (oldDept != null) {
-                oldDept.getEmployees().getItems().removeIf(i -> i.getId() == oldId);
-            }
-            newDept.getEmployees().getItems().removeIf(i -> i.getId() == oldId);
-            newDept.getEmployees().add(edited);
-
-            Database.get().save();
             showSuccess("Employee updated successfully!");
             handleBackBtn(event);
 

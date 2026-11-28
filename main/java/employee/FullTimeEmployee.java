@@ -1,6 +1,7 @@
 package employee;
 
 public class FullTimeEmployee extends Employee{
+    private static final long serialVersionUID = 1L;
     private int monthlySalary;
     private int bonus;
     
