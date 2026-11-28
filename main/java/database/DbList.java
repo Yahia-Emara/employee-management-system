@@ -34,7 +34,7 @@ public class DbList implements Serializable{
     public DbList searchByName(String prefix){
         DbList matches = new DbList();
         matches.setItems(items.stream()
-                .filter(item -> item.getName() != null && item.getName().toLowerCase().contains(prefix.toLowerCase()))
+                .filter(item -> item.getName() != null && item.getName().toLowerCase().startsWith(prefix.toLowerCase()))
                 .collect(Collectors.toList()));
         return matches;
     }
@@ -50,12 +50,22 @@ public class DbList implements Serializable{
     }
     
     public void remove(DbItem item){
-        items.remove(item);
+        for(DbItem item1 : items){
+            if(item1.getId() == item.getId()){
+                items.remove(item1);
+                break;
+            }
+        }
     }
 
 
     public boolean contains(DbItem item){
-        return items.contains(item);
+        for(DbItem item1 : items){
+            if(item1.getId() == item.getId()){
+                return true;
+            }
+        }
+        return false;
     }
 
     public String toString(){

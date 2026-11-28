@@ -102,6 +102,7 @@ public class addEmployee {
 
                 FullTimeEmployee emp = new FullTimeEmployee(name,age,position,department,salary,bonus);
                 Database db = Database.get();
+                department.getEmployees().add(emp);
                 db.getEmployees().add(emp);
                 if (!Database.get().save()) {
                     showAlert("Could not save data to file.");
@@ -126,6 +127,7 @@ public class addEmployee {
 
                 PartTimeEmployee partemp = new PartTimeEmployee(name,age,position,department,rate,hours);
                 Database db = Database.get();
+                department.getEmployees().add(partemp);
                 db.getEmployees().add(partemp);
                 if (!Database.get().save()) {
                     showAlert("Could not save data to file.");

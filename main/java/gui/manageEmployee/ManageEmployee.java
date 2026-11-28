@@ -2,13 +2,15 @@ package gui.manageEmployee;
 
 import database.Database;
 import database.DbItem;
+import database.DbList;
+import employee.Department;
 import employee.Employee;
 import gui.addEmployee.addEmployee;
+
+import static gui.common.isNumeric;
 import static gui.common.showAlert;
 import gui.editEmployee.EditEmployee;
 import gui.home.Home;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -70,22 +72,26 @@ public class ManageEmployee {
         ));
         searchEmployeesField.textProperty().addListener((obs, oldVal, newVal) -> searchEmployee());
     }
-    
-   
+
+
     public void searchEmployee(){
+
+        Database db = Database.get();
+        DbList emp;
         String input = searchEmployeesField.getText() == null ? "" : searchEmployeesField.getText().trim();
-        String lower = input.toLowerCase();
-        List<DbItem> result = new ArrayList<>();
-        for (DbItem item : Database.get().getEmployees().getItems()) {
-            Employee e = (Employee) item;
-            if (input.isEmpty()
-                    || String.valueOf(e.getId()).startsWith(input)
-                    || e.getFullName().toLowerCase().contains(lower)
-                    || e.getDepartmentName().toLowerCase().contains(lower)) {
-                result.add(item);
-            }
+        if (input.isEmpty()) {
+            emp = Database.get().getEmployees();
         }
-        tableView.getItems().setAll(result);
+        else if(isNumeric(input)){
+            emp=db.getEmployees().searchById(input);
+        }else{
+            emp=db.getEmployees().searchByName(input);
+        }
+        if (emp == null || emp.getItems() == null) {
+            tableView.getItems().clear();
+        } else {
+            tableView.getItems().setAll(emp.getItems());
+        }
     }
     
     public void back(ActionEvent event){
@@ -117,6 +123,16 @@ public class ManageEmployee {
             return;
         }
         Database.get().getEmployees().remove(selectedEmployee);
+        for(DbItem department : Database.get().getDepartments().getItems()){
+            Department dept = (Department) department;
+            Employee emp = (Employee) selectedEmployee;
+            if(dept.getId() == emp.getDepartment().getId()){
+                dept.removeEmployee(selectedEmployee);
+
+                break;
+            }
+
+        }
         tableView.getItems().remove(selectedEmployee);
         if (!Database.get().save()) {
             showAlert("Could not save data to file.");

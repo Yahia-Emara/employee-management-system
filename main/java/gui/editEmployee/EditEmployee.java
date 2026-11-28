@@ -125,6 +125,9 @@ public class EditEmployee {
         }
 
             int oldId = employee.getId();
+            Department oldDept = findDepartmentById(employee.getDepartment().getId());
+
+
             Employee edited;
 
             boolean sameType = ("Full-Time".equals(type) && employee instanceof FullTimeEmployee)
@@ -149,9 +152,13 @@ public class EditEmployee {
                 } else {
                     edited = new PartTimeEmployee(oldId, name, age, position, newDept, rate, hours);
                 }
-
                 Database.get().getEmployees().getItems().removeIf(i -> i.getId() == oldId);
                 Database.get().getEmployees().add(edited);
+                if (oldDept != null) {
+                    oldDept.getEmployees().getItems().removeIf(i -> i.getId() == oldId);
+                }
+                newDept.getEmployees().getItems().removeIf(i -> i.getId() == oldId);
+                newDept.getEmployees().add(edited);
             }
 
             if (!Database.get().save()) {

@@ -1,6 +1,6 @@
 package employee;
 
-import database.Database;
+
 import java.io.Serializable;
 
 import database.DbItem;
@@ -53,13 +53,7 @@ public class Department implements Serializable, DbItem {
         this.employees = employees;
     }
     public int getNumberOfEmployees(){
-        int count = 0;
-        for (DbItem item : Database.get().getEmployees().getItems()) {
-            if (((Employee) item).getDepartment().getId() == id) {
-                count++;
-            }
-        }
-        return count;
+      return employees.getItems().size();
     }
     public void removeEmployee(DbItem employee){
         employees.remove(employee);
