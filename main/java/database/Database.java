@@ -35,7 +35,7 @@ public class Database {
             users = new DbList();
         }
         if (users.getItems().isEmpty()){
-            users.add(new User("admin", "admin"));
+            users.add(new User("Admin", "admin123"));
             Helper.writeFile("./database/users.ser", users);
         }
         departments = (DbList) Helper.readFile("./database/departments.ser");
